@@ -1,0 +1,24 @@
+# Container for the SEPARATE instagrapi comparison server only
+# (app/api_instagrapi.py, app/scrape_instagrapi.py) - not the main
+# browser-automation API, which needs a real Chrome + Selenium and doesn't
+# belong in this lightweight image. Built on a normal, non-beta Python so
+# instagrapi's pydantic-v2 dependency gets a prebuilt wheel instead of
+# trying (and failing) to compile from source - see
+# requirements-instagrapi.txt and app/scrape_instagrapi.py's module
+# docstring for why this needs its own environment at all.
+
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY requirements-instagrapi.txt .
+RUN pip install --no-cache-dir -r requirements-instagrapi.txt
+
+COPY app/scrape_instagrapi.py app/api_instagrapi.py app/openapi_spec_instagrapi.py app/mongo_store.py app/paths.py app/__init__.py ./app/
+
+# Render (and most PaaS hosts) inject PORT at runtime and expect the app to
+# bind 0.0.0.0 - api_instagrapi.py already reads PORT/HOST from the
+# environment with sane local-dev fallbacks, so no extra flags are needed.
+ENV HOST=0.0.0.0
+
+CMD ["python", "-m", "app.api_instagrapi", "--serve"]

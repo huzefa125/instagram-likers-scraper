@@ -1,0 +1,29 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+.venv-instagrapi/
+
+# Runtime output (Selenium scrape results, debug dumps)
+data/*.csv
+data/*.json
+!data/.gitkeep
+/response_*.json
+/logs.json
+
+# Claude Code local session/project data - never belongs in a repo
+.claude/
+
+# instagram-users-scraper - separate Node sub-tool with its own git repo
+# (nested .git/), unrelated to this project's deployment - excluded
+# wholesale rather than tracked as a broken embedded-repo reference.
+instagram-users-scraper/
+
+# OS/editor
+.DS_Store
+Thumbs.db

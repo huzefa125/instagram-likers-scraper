@@ -1,0 +1,42 @@
+# Requirements for the SEPARATE instagrapi comparison server
+# (app/scrape_instagrapi.py, app/api_instagrapi.py) - install these into
+# their own venv built with Python 3.14 (or any non-beta CPython with
+# prebuilt pydantic-core wheels), NOT into the main project's environment:
+#
+#   py -3.14 -m venv .venv-instagrapi
+#   .venv-instagrapi\Scripts\python.exe -m pip install -r requirements-instagrapi.txt
+#
+# instagrapi's pydantic-v2 dependency has no prebuilt wheel for this
+# project's main Python (3.15 beta) and fails to compile from source there
+# - that's the whole reason this is a second venv instead of one line in
+# requirements.txt. See app/scrape_instagrapi.py's module docstring for why
+# this exists at all (mobile-API-emulation comparison vs. the main
+# browser-automation pipeline) and the risk tradeoff.
+
+# Core
+instagrapi==3.0.12
+python-dotenv==1.2.3
+pymongo==4.18.1
+
+# API server
+Flask==3.1.3
+waitress==3.0.2
+flask-swagger-ui==5.33.0
+
+# instagrapi's own dependencies (pinned for reproducible installs)
+pydantic==2.13.5
+pydantic_core==2.46.5
+curl_cffi==0.16.3
+pycryptodomex==3.23.0
+pillow==12.3.0
+requests==2.34.2
+PySocks==1.7.1
+
+# Flask's own dependencies (pinned for reproducible installs)
+Werkzeug==3.1.8
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+itsdangerous==2.2.0
+click==8.5.0
+blinker==1.9.0
+dnspython==2.8.0
